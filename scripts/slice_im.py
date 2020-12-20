@@ -69,7 +69,7 @@ def slice_im(image_path, out_name, outdir, sliceHeight=256, sliceWidth=256,
             # skip if image is mostly empty
             if zero_frac >= zero_frac_thresh:
                 if verbose:
-                    print "Zero frac too high at:", zero_frac
+                    print("Zero frac too high at:", zero_frac)
                 continue 
             # else save                  
             else:
@@ -84,13 +84,13 @@ def slice_im(image_path, out_name, outdir, sliceHeight=256, sliceWidth=256,
                 #'_' + str(y) + '_' + str(x) + '_' + str(sliceHeight) + '_' + str(sliceWidth) +\
                 #'_' + str(pad) + '.jpg')
                 if verbose:
-                    print "outpath:", outpath
+                    print("outpath:", outpath)
                 cv2.imwrite(outpath, window_c)
                 n_ims_nonull += 1
 
-    print "Num slices:", n_ims, "Num non-null slices:", n_ims_nonull, \
-            "sliceHeight", sliceHeight, "sliceWidth", sliceWidth
-    print "Time to slice", image_path, time.time()-t0, "seconds"
+    print("Num slices:", n_ims, "Num non-null slices:", n_ims_nonull, \
+            "sliceHeight", sliceHeight, "sliceWidth", sliceWidth)
+    print("Time to slice", image_path, time.time()-t0, "seconds")
       
     return
 
