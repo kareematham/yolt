@@ -107,9 +107,9 @@ def plot_loss_2col(df, figsize=(8,6), batchsize=64,
     ylim = (0.9*np.min(loss), np.percentile(loss, 99.5))
     
     if verbose:
-        print "batch:", batch
-        print "loss:", loss
-        print "ylim:", ylim
+        print("batch:", batch)
+        print("loss:", loss)
+        print("ylim:", ylim)
     
     # plot
     fig, (ax) = plt.subplots(1, 1, figsize=(1*figsize[0], figsize[1]))        
@@ -193,8 +193,8 @@ def main():
     #log_dir = os.path.join(res_dir, 'logs')
     log_dir = res_dir #os.path.join(res_dir, 'logs')
 
-    print "res_dir:", res_dir
-    print "log_dir:", log_dir
+    print("res_dir:", res_dir)
+    print("log_dir:", log_dir)
 
 
     # set plot name
