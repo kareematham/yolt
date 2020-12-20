@@ -93,11 +93,12 @@ if __name__ == "__main__":
     box rotated to align with the red line
     http://docs.opencv.org/3.0-beta/doc/py_tutorials/py_imgproc/py_houghlines/py_houghlines.html
     '''
-    
+    ''' 
     indir = '/Users/avanetten/Documents/cosmiq/yolt2/test_data/'
     os.chdir('/Users/avanetten/Documents/cosmiq/yolt2/')
-    thickness=2
     
+    '''
+    thickness=2 
     for i in range(4):
         im_root = '__' + str(i) + '.png'#'rio_airstrip.png'
         im_path = indir + im_root
