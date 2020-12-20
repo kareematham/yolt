@@ -423,7 +423,7 @@ def yolt_command(args):
             
     cmd = ' '.join(c_arg_list)
       
-    print "Command:\n", cmd        
+    print("Command:\n", cmd)        
       
     return cmd
     
@@ -500,10 +500,10 @@ def recompile_darknet(yolt_dir):
     cmd_compile0 = 'make clean'
     cmd_compile1 = 'make'
     
-    print cmd_compile0
+    print(cmd_compile0)
     run_cmd(cmd_compile0)
     
-    print cmd_compile1
+    print(cmd_compile1)
     run_cmd(cmd_compile1)    
     
 ###############################################################################
@@ -693,7 +693,7 @@ def set_valid_files(valid_files_list, args):
     #   has been updated        
     valid_results_files = [os.path.join(args.results_dir, l + '.txt') \
                                            for l in args.object_labels]
-    print "valid_results_files:", valid_results_files
+    print("valid_results_files:", valid_results_files)
     
     return valid_files_txt, valid_results_files
 
@@ -972,7 +972,7 @@ def post_process_valid_create_df(args):
         
         # remove bad_idxs
         if len(bad_idxs) > 0:
-            print "removing bad idxs:", bad_idxs
+            print("removing bad idxs:", bad_idxs)
             df = df.drop(df.index[bad_idxs])        
             
         # append to total df
@@ -1003,7 +1003,7 @@ def post_proccess_make_plots(args, df, verbose=False):
         data_all_classes = g[1]
         
             
-        print "\n", itmp, "/", len(group), "Analyzing Image:", im_path
+        print("\n", itmp, "/", len(group), "Analyzing Image:", im_path)
 
         # plot validation outputs    
         #for plot_thresh_tmp in plot_thresh:
@@ -1327,7 +1327,7 @@ def plot_vals(args, im_path, data_all_classes, outpkl, figname, plot_thresh,
                     label_font_width,  
                     cv2.CV_AA)#cv2.LINE_AA)
 
-    print "Saving to files", outpkl, figname, "..."
+    print("Saving to files", outpkl, figname, "...")
  
     if len(outpkl) > 0:
         pickle.dump([out_list, boxes, boxes_nms], open(outpkl, 'wb'), protocol=2)
@@ -1469,9 +1469,9 @@ def main():
     print "Date string:", args.date_string
     
     if args.mode == 'compile':
-        print "Creating label images..."
+        print("Creating label images...")
         make_label_images(args.label_image_dir, new_labels=args.object_labels)
-        print "Recompiling yolt..."
+        print("Recompiling yolt...")
         recompile_darknet(args.yolt_dir) 
         return
 
@@ -1496,14 +1496,14 @@ def main():
     print "Updating yolt params in files..."
     replace_yolt_vals(args)    
     # print a few values...
-    print "Final output layer size:", args.final_output
-    print "side size:", args.side
-    print "batch_size:", args.batch_size
-    print "subdivisions:", args.subdivisions
+    print("Final output layer size:", args.final_output)
+    print("side size:", args.side)
+    print("batch_size:", args.batch_size)
+    print("subdivisions:", args.subdivisions)
     
     # set out command       
     outcmd = yolt_command(args)
-    print "\noutcmd:", outcmd
+    print("\noutcmd:", outcmd)
     #os.system('echo ' + outcmd + ' >> ' + args.log_file)
 
     # create log file, init to the contents in this file, and cfg file
@@ -1511,7 +1511,7 @@ def main():
     os.system('cat ' + args.this_file + ' >> ' + args.log_file)      
  
     args_str = '"\nArgs: ' +  str(args) + '\n"'
-    print args_str  
+    print(args_str)  
     os.system('echo ' + args_str + ' >> ' + args.log_file)
 
 
@@ -1547,7 +1547,7 @@ def main():
         #    text_file.write(cmd_time_str+ '\n\n')  
     
     
-    print "\nNo honeymoon. This is business."
+    print("\nNo honeymoon. This is business.")
     return
         
 ###############################################################################
