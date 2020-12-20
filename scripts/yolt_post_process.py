@@ -41,7 +41,7 @@ def rescale_angle(angle_rad):
     elif angle_deg >= 135 and angle_deg < 180:
         angle_out = angle_deg - 180.
     else:
-        print "Unexpected angle in rescale_angle() [should be from 0-pi radians]"
+        print( "Unexpected angle in rescale_angle() [should be from 0-pi radians]")
         return
         
     return angle_out
@@ -63,7 +63,7 @@ def rotate_box(xmin, xmax, ymin, ymax, canny_edges, verbose=False):
         # get primary angle
         line = hough_lines[0]
         if verbose:
-            print " hough_lines[0]",  line
+            print( " hough_lines[0]",  line)
         if len(line) > 1:
             rho, theta = line[0].flatten()
         else:
@@ -73,7 +73,7 @@ def rotate_box(xmin, xmax, ymin, ymax, canny_edges, verbose=False):
     # rescale to between -45 and +45 degrees
     angle_deg = rescale_angle(theta)
     if verbose:
-        print "angle_deg_rot:", angle_deg
+        print ("angle_deg_rot:", angle_deg)
     # rotated coords
     coords_rot = np.asarray([rotatePoint(centerPoint, c, angle_deg) for c in
                              coords], dtype=np.int32)
@@ -125,7 +125,7 @@ if __name__ == "__main__":
                 
                 cv2.line(img,(x1,y1),(x2,y2),(0,0,255),2)
                 angle_print = int(180. * theta / np.pi)
-                print "angle (deg):", angle_print
+                print ("angle (deg):", angle_print)
                 
         cv2.imwrite('houghlines' + im_root.split('.')[0] + '_' + str(angle_print) + '.jpg',img)
     
@@ -139,7 +139,7 @@ if __name__ == "__main__":
         cv2.rectangle(img, (xmin, ymin), (xmax, ymax), (color0), thickness)   
         # rotate box
         angle_rescale = rescale_angle(theta)
-        print "angle_rescale (deg):", angle_rescale
+        print( "angle_rescale (deg):", angle_rescale)
         coords_rot = rotate_box(xmin, xmax, ymin, ymax, edges)
         # plot
         coords1 = coords_rot.reshape((-1,1,2))
