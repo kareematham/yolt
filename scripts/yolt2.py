@@ -333,7 +333,7 @@ def run_cmd(cmd):
     while True:
         line = p.stdout.readline()
         if not line: break
-        print line.replace('\n', '') 
+        print(line.replace('\n', '')) 
     return
 
 ###############################################################################
