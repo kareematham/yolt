@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Created on Wed Dec  9 14:55:43 2015
-
 This script is to convert the txt annotation files to appropriate format needed by YOLO 
-
 @author: Guanghan Ning
 Email: gnxr9@mail.missouri.edu
 """
@@ -56,7 +54,7 @@ def parse_xml(xmlpath):
     # for multimple objects
     if type(doc['object']) == list:
         for ob in doc['object']:
-            print "ob", ob
+            print("ob", ob)
             category = ob['name']
             cat_list.append(category)
             xmin = float(ob['bndbox']['xmin'])
@@ -66,7 +64,7 @@ def parse_xml(xmlpath):
             box_list.append([xmin, xmax, ymin, ymax])
     else:
         ob = doc['object']
-        print "ob", ob
+        print("ob", ob)
         category = ob['name']
         cat_list.append(category)
         xmin = float(ob['bndbox']['xmin'])
@@ -75,8 +73,8 @@ def parse_xml(xmlpath):
         ymax = float(ob['bndbox']['ymax'])
         box_list.append([xmin, xmax, ymin, ymax])
         
-    print "boxes:", box_list
-    print "categories:", cat_list
+    print("boxes:", box_list)
+    print("categories:", cat_list)
     return folder, filename, image_path, box_list, cat_list
     
 # test
@@ -169,7 +167,7 @@ def main(boxroot, mypath, outpath, outname, classes_dic, im_locs_for_list, train
             #print('\n')
             if(len(line) >= 2):
                 ct = ct + 1
-                print "box:", line
+                print("box:", line)
                 #print(line + "\n")
     #            elems = line.split(' ')
     #            print(elems)
@@ -199,7 +197,7 @@ def main(boxroot, mypath, outpath, outname, classes_dic, im_locs_for_list, train
                 #print "bb:", bb
                 cls_id = classes_dic[cat]
                 outstring = str(cls_id) + " " + " ".join([str(a) for a in bb]) + '\n'
-                print "outstring:", outstring
+                print("outstring:", outstring)
                 # print "txt_outfile:", txt_outfile
                 txt_outfile.write(outstring)
         txt_outfile.close()
@@ -215,5 +213,4 @@ def main(boxroot, mypath, outpath, outname, classes_dic, im_locs_for_list, train
 if __name__ == "__main__":
          
     """ Configure Paths""" 
-    print ""
-        
+    print("")
