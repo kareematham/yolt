@@ -1,27 +1,19 @@
- #!/usr/bin/env python2
+#!/usr/bin/env python2
 # -*- coding: utf-8 -*-
 """
 Created on Thu Jun 16 14:11:56 2016
-
 @author: avanetten
-
 # run nvidia-docker nteractive shell 
 nvidia-docker run -it -v /raid:/raid —name yolt_name darknet 
-
-
 ##########################
 # See notes.txt, yolt_data_prep.py for more info
-
 # for training, yolt replaces "images" with "labels" in path to look for 
 #   labels, so paths must be the same except for that 
 # training images in yolt2/itraining_datasets/"name"/training_data/images
 # training labels must be in in yolt2/itraining_datasets/"name"/training_data/labels
-
 # see data.c.fill_truth_region for assumed data structure
-
 # make sure GPU = 1 in Makefile, run compile_darknet()
 # every time C files are changed, need to run compile_darknet()
-
 ##########################
 # Labeling and bounding box settings
 # put all images in yolt2/images/boat
@@ -29,7 +21,6 @@ nvidia-docker run -it -v /raid:/raid —name yolt_name darknet
 # put list of images in yolt2/data/boat_list2_dev_box.txt
 ##########################
 ##########################f
-
 """
 
 import os
@@ -602,7 +593,6 @@ def split_valid_im(im_root_with_ext, args):
     1. get image path (args.valid_image_tmp) from image root name 
             (args.valid_image_tmp)
     2. slice test image and move to results dir
-
     '''
 
     ##########################
@@ -631,7 +621,7 @@ def split_valid_im(im_root_with_ext, args):
             valid_split_dir = os.path.join(args.results_dir,  im_root + '_split' + '/')
             
         valid_dir_str = '"Valid_split_dir: ' +  valid_split_dir + '\n"'
-        print valid_dir_str[1:-2]
+        print(valid_dir_str[1:-2])
         os.system('echo ' + valid_dir_str + ' >> ' + args.log_file)
         #print "valid_split_dir:", valid_split_dir
         
@@ -660,7 +650,7 @@ def split_valid_im(im_root_with_ext, args):
                 valid_files = [os.path.join(valid_split_dir, f) for \
                                    f in os.listdir(valid_split_dir)]
         n_files_str = '"Num files: ' + str(len(valid_files)) + '\n"'
-        print n_files_str[1:-2]
+        print(n_files_str[1:-2])
         os.system('echo ' + n_files_str + ' >> ' + args.log_file)
         
     else:
@@ -680,9 +670,9 @@ def set_valid_files(valid_files_list, args):
     4. create list of valid results files 
     '''
     
-    print "Total len valid files:", len(valid_files_list)
+    print("Total len valid files:", len(valid_files_list))
     valid_files_txt = os.path.join(args.results_dir, 'valid_input_files.txt')
-    print "valid_files_txt:", valid_files_txt
+    print("valid_files_txt:", valid_files_txt)
     # write list of files to valid_files_txt
     with open (valid_files_txt, "wb") as fp:
        for line in valid_files_list:
@@ -706,7 +696,7 @@ def run_valid(args):
     
     # split validation images, store locations 
     valid_split_str = '"Splitting validation files...\n"'
-    print valid_split_str[1:-2]
+    print(valid_split_str[1:-2])
     os.system('echo ' + valid_split_str + ' >> ' + args.log_file)
 
     valid_files_locs_list = []
@@ -714,7 +704,7 @@ def run_valid(args):
     for i,valid_base_tmp in enumerate(args.valid_testims_list):
         iter_string = '"\n' + str(i+1) + ' / ' + \
             str(len(args.valid_testims_list)) + '\n"'
-        print iter_string[1:-2]
+        print(iter_string[1:-2])
         os.system('echo ' + iter_string + ' >> ' + args.log_file)
         #print "\n", i+1, "/", len(args.valid_testims_list)
         
@@ -723,7 +713,7 @@ def run_valid(args):
         #valid_base_string = '"valid_base_tmp_noext:' \
         #                    + str(valid_base_tmp_noext) + '\n"'
         valid_base_string = '"valid_file: ' + str(valid_base_tmp) + '\n"'
-        print valid_base_string[1:-2]
+        print(valid_base_string[1:-2])
         os.system('echo ' + valid_base_string + ' >> ' + args.log_file)
         
         # split data 
@@ -755,7 +745,7 @@ def run_valid(args):
     cmd_time_str = '"\nLength of time to run command: ' +  outcmd \
                     + ' for ' + str(n_files) + ' cutouts: ' \
                     + str(t1 - t0) + ' seconds\n"'
-    print cmd_time_str  
+    print(cmd_time_str)  
     os.system('echo ' + cmd_time_str + ' >> ' + args.log_file)
 
     # process outputs
@@ -775,15 +765,15 @@ def run_valid(args):
         if os.path.exists(valid_split_dir_tmp):
             # compress image chip dirs if desired
             if args.keep_valid_slices.upper() == 'TRUE':
-                print "Compressing image chips..."
+                print("Compressing image chips...")
                 shutil.make_archive(valid_split_dir_tmp, 'zip', 
                                     valid_split_dir_tmp)            
             # remove unzipped folder
-            print "Removing valid_split_dir_tmp:", valid_split_dir_tmp
+            print("Removing valid_split_dir_tmp:", valid_split_dir_tmp)
             # make sure that valid_split_dir_tmp hasn't somehow been shortened
             #  (don't want to remove "/")
             if len(valid_split_dir_tmp) < len(args.results_dir):
-                print "valid_split_dir_tmp too short!!!!:", valid_split_dir_tmp
+                print("valid_split_dir_tmp too short!!!!:", valid_split_dir_tmp)
                 return
             else:
                 shutil.rmtree(valid_split_dir_tmp, ignore_errors=True)
@@ -834,7 +824,7 @@ def get_global_coords(args, row):
             dx = xmax0 - xmin0
             dy = ymax0 - ymin0
             if (1.*dx/dy > args.max_edge_aspect_ratio) or (1.*dy/dx > args.max_edge_aspect_ratio):
-                print "Too close to edge, and high aspect ratio, skipping", row, "..."
+                print("Too close to edge, and high aspect ratio, skipping", row, "...")
                 return [], []
     
         # set min, max x and y for each box, shifted for appropriate
@@ -902,7 +892,7 @@ def post_process_valid_create_df(args):
     for i,vfile in enumerate(args.valid_results_files):
 
         valid_base_string = '"valid_file: ' + str(vfile) + '\n"'
-        print valid_base_string[1:-2]
+        print(valid_base_string[1:-2])
         os.system('echo ' + valid_base_string + ' >> ' + args.log_file)
         
         cat = vfile.split('/')[-1].split('.')[0]
@@ -993,7 +983,7 @@ def post_proccess_make_plots(args, df, verbose=False):
         # initilize to empty
         thresh_poly_dic[np.around(plot_thresh_tmp, decimals=2)] = []
     if verbose:
-        print "thresh_poly_dic:", thresh_poly_dic
+        print("thresh_poly_dic:", thresh_poly_dic)
         
     # group 
     group = df.groupby('Image_Path')
@@ -1060,14 +1050,14 @@ def post_proccess_make_plots(args, df, verbose=False):
         for plot_thresh_tmp in thresh_poly_dic.keys():
             csv_name = os.path.join(args.results_dir, 'predictions_' \
                                         + str(plot_thresh_tmp) + '.csv')
-            print "Saving wkt buildings to file:", csv_name, "..."
+            print( "Saving wkt buildings to file:", csv_name, "...")
             # save to csv
             #print "thresh_poly_dic:", thresh_poly_dic
             #print "thresh_poly_dic[plot_thresh_tmp]:", thresh_poly_dic[plot_thresh_tmp]
             with open(csv_name, 'wb') as csvfile:
                 writer = csv.writer(csvfile, delimiter=',')
                 for j,line in enumerate(thresh_poly_dic[plot_thresh_tmp]):
-                    print j, line
+                    print( j, line)
                     writer.writerow(line)            
 
     return
@@ -1146,18 +1136,18 @@ def plot_vals(args, im_path, data_all_classes, outpkl, figname, plot_thresh,
     legend_dic = {}
     
     if verbose:
-        print "data_all_classes.columns:", data_all_classes.columns
+        print( "data_all_classes.columns:", data_all_classes.columns)
     
     # group by category
     group2 = data_all_classes.groupby('Category')
     for i,(category, plot_df) in enumerate(group2):
-        print "Plotting category:", category
+        print( "Plotting category:", category)
         label_int = args.object_labels.index(category)
         color = colormap[label_int]#
-        print "color:", color
+        print( "color:", color)
         label = str(label_int)
         label_str = args.object_labels[label_int] #label_root0.split('_')[-1]
-        print "label:", label, 'label_str:', label_str
+        print("label:", label, 'label_str:', label_str)
         legend_dic[label_int] = (label_str, color)
         
         for index, row in plot_df.iterrows():
@@ -1183,7 +1173,7 @@ def plot_vals(args, im_path, data_all_classes, outpkl, figname, plot_thresh,
                         (float(xmax0) > (sliceWidth - args.edge_buffer_valid)) or                      
                         (float(ymin0) < args.edge_buffer_valid) or 
                         (float(ymax0) > (sliceHeight - args.edge_buffer_valid)) ):
-                        print "Too close to edge, skipping", row, "..."
+                        print("Too close to edge, skipping", row, "...")
                         continue
                 
 #                # below is accomplished when df is created
@@ -1454,7 +1444,7 @@ def building_polys_to_csv(image_name, building_name, coords, conf=0,
 ###############################################################################
 def main():
     
-    print "Run YOLT2"
+    print("Run YOLT2")
     args = init_args()
     os.chdir(args.yolt_dir)
     
@@ -1466,7 +1456,7 @@ def main():
     #import convert
     ##########################
     
-    print "Date string:", args.date_string
+    print("Date string:", args.date_string)
     
     if args.mode == 'compile':
         print("Creating label images...")
@@ -1482,8 +1472,8 @@ def main():
     # copy this file (yolt2.py) as well as config, plot file to results_dir
     shutil.copy2(args.this_file, args.log_dir)
     shutil.copy2(args.plot_file, args.log_dir)
-    print "cfg_file:", args.cfg_file_in
-    print "log_dir:", args.log_dir
+    print("cfg_file:", args.cfg_file_in)
+    print("log_dir:", args.log_dir)
     shutil.copy2(args.cfg_file_in, args.log_dir)
     # save labels to log_dir
     #pickle.dump(args.object_labels, open(args.log_dir \
@@ -1493,7 +1483,7 @@ def main():
         for ob in args.object_labels:
            fp.write(ob+"\n")
 
-    print "Updating yolt params in files..."
+    print("Updating yolt params in files...")
     replace_yolt_vals(args)    
     # print a few values...
     print("Final output layer size:", args.final_output)
@@ -1527,7 +1517,7 @@ def main():
         
         cmd_time_str = '"Length of time to run command: ' +  outcmd + ' ' \
                         + str(time.time() - t0) + ' seconds\n"'
-        print cmd_time_str  
+        print(cmd_time_str) 
         #with open(log_file, "a") as text_file:
         #    text_file.write('\n' + cmd_time_str + '\n')
         os.system('echo ' + cmd_time_str + ' >> ' + args.log_file)
@@ -1541,7 +1531,7 @@ def main():
         run_valid(args)
         cmd_time_str = '"Length of time to run valid' + ' ' \
                         + str(time.time() - t00) + ' seconds\n"'
-        print cmd_time_str  
+        print(cmd_time_str)  
         os.system('echo ' + cmd_time_str + ' >> ' + args.log_file)
         #with open(log_file, "w") as text_file:
         #    text_file.write(cmd_time_str+ '\n\n')  
@@ -1554,9 +1544,10 @@ def main():
 ###############################################################################    
 if __name__ == "__main__":
     
-    print "\nPermit me to introduce myself...\n\n" \
-            "Well, I’m glad we got that out of the way.\n\n\n\n"
+    print("\nPermit me to introduce myself...\n\n" \
+            "Well, I’m glad we got that out of the way.\n\n\n\n")
     main()
     
 ###############################################################################
 ###############################################################################
+
